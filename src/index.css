@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.gradient-hero {
+  background: linear-gradient(135deg, #E63B2E 0%, #FF7A30 100%);
+}
+
+.gradient-btn {
+  background: linear-gradient(135deg, #E63B2E 0%, #FF5A2E 100%);
+}
+
+.gradient-btn:hover {
+  background: linear-gradient(135deg, #C62E22 0%, #E64A20 100%);
+}
