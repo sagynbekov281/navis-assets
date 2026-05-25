@@ -25,7 +25,7 @@ export default function Navbar() {
     i18n.changeLanguage(code === 'RU' ? 'ru' : 'en')
   }
 
-  // Lock body scroll when mobile menu is open
+
   useEffect(() => {
     if (menuOpen) {
       document.body.style.overflow = 'hidden'
@@ -77,7 +77,6 @@ export default function Navbar() {
           .navbar-mobile-start {
             display: flex !important;
           }
-          /* Hide original mobile burger (md:hidden button) */
           .navbar-old-burger {
             display: none !important;
           }
@@ -119,7 +118,6 @@ export default function Navbar() {
           overflow-y: auto;
         }
 
-        /* Top bar inside panel: close + language */
         .mob-panel-topbar {
           display: flex;
           align-items: center;
@@ -143,7 +141,6 @@ export default function Navbar() {
           height: 32px;
         }
 
-        /* Language switcher inside panel */
         .mob-lang-btn {
           display: inline-flex;
           align-items: center;
@@ -188,7 +185,6 @@ export default function Navbar() {
           background: #f9fafb;
         }
 
-        /* Nav links inside panel */
         .mob-nav-links {
           display: flex;
           flex-direction: column;
@@ -210,11 +206,111 @@ export default function Navbar() {
           width: 100%;
           display: block;
           border-bottom: 1px solid #f9fafb;
-          transition: color 0.15s;
+          transition: color 0.15s, background 0.15s;
+          position: relative;
         }
         .mob-nav-link:hover,
         .mob-nav-btn:hover {
           color: #e83a1e;
+          background: #fff5f0;
+        }
+        .mob-nav-link.active::after,
+        .mob-nav-btn.active::after {
+          content: '';
+          position: absolute;
+          left: 24px;
+          right: 24px;
+          bottom: 6px;
+          height: 2.5px;
+          background: #e83a1e;
+          border-radius: 2px;
+        }
+
+        /* Desktop navbar link underline */
+        .navbar-desktop-links .nav-link {
+          position: relative;
+          color: #4b5563;
+          transition: color 0.15s;
+        }
+        .navbar-desktop-links .nav-link:hover {
+          color: #e83a1e;
+        }
+        .navbar-desktop-links .nav-link:hover .nav-underline {
+          display: block;
+          opacity: 1;
+          transform: scaleX(1);
+        }
+        .navbar-desktop-links .nav-link.active {
+          color: #e83a1e;
+        }
+        .navbar-desktop-links .nav-link.active .nav-underline {
+          display: block;
+          opacity: 1;
+          transform: scaleX(1);
+        }
+        .nav-underline {
+          display: none;
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: -6px;
+          height: 2.5px;
+          background: #e83a1e;
+          border-radius: 2px;
+          opacity: 0;
+          transform: scaleX(0.6);
+          transition: opacity 0.2s, transform 0.2s;
+        }
+
+        /* ── Кнопка "Начать" — десктоп ── */
+        .btn-start-desktop {
+          background: #111;
+          color: #fff;
+          border: 1.5px solid #111;
+          border-radius: 10px;
+          font-size: 14px;
+          font-weight: 700;
+          height: 44px;
+          padding: 0 16px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          text-decoration: none;
+          transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+          white-space: nowrap;
+        }
+        .btn-start-desktop:hover {
+          background: linear-gradient(51.24deg, #D4151C 22.63%, #D35400 82.84%);
+          border-color: transparent;
+          box-shadow: 0 4px 16px rgba(212, 21, 28, 0.3);
+          transform: translateY(-1px);
+        }
+
+        /* ── Кнопка "Начать" — мобильная ── */
+        .btn-start-mobile {
+          background: #111;
+          color: #fff;
+          border-radius: 12px;
+          font-weight: 700;
+          font-size: 14px;
+          padding: 10px 20px;
+          text-decoration: none;
+          display: none;
+          align-items: center;
+          white-space: nowrap;
+          border: 1.5px solid #111;
+          transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+        }
+        .btn-start-mobile:hover {
+          background: linear-gradient(51.24deg, #D4151C 22.63%, #D35400 82.84%);
+          border-color: transparent;
+          box-shadow: 0 4px 16px rgba(212, 21, 28, 0.3);
+          transform: translateY(-1px);
+        }
+        @media (max-width: 768px) {
+          .btn-start-mobile {
+            display: flex !important;
+          }
         }
       `}</style>
 
@@ -222,12 +318,11 @@ export default function Navbar() {
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 16px' }}>
           <div className="flex items-center justify-between h-16">
 
-            {/* ── Mobile left: burger + logo ── */}
+            {/* Mobile left: burger + logo */}
             <div
               className="navbar-mobile-left"
               style={{ display: 'none', alignItems: 'center', gap: 12 }}
             >
-              {/* Burger button */}
               <button
                 onClick={() => setMenuOpen(true)}
                 aria-label="Открыть меню"
@@ -246,7 +341,6 @@ export default function Navbar() {
                 <span style={{ display: 'block', width: 22, height: 2.5, background: '#374151', borderRadius: 2 }} />
               </button>
 
-              {/* Logo */}
               <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
                 <img src={UnionIcon} alt="Navis Asset" style={{ width: 40, height: 40, objectFit: 'contain' }} />
                 <div style={{ lineHeight: 1.25 }}>
@@ -271,32 +365,31 @@ export default function Navbar() {
             <div className="navbar-desktop-links hidden md:flex items-center gap-6 h-full">
               {navLinks.map(link => {
                 const isActive = !link.isServices && location.pathname === link.to
-                return link.isServices ? (
-                  <button
-                    key={link.label}
-                    onClick={handleServicesClick}
-                    className="relative flex flex-col items-center justify-center h-16 text-sm font-medium transition-colors"
-                    style={{ color: '#4b5563', background: 'transparent', border: 'none', cursor: 'pointer' }}
-                  >
-                    <span className="relative">{link.label}</span>
-                  </button>
-                ) : (
-                  <Link
-                    key={link.to}
-                    to={link.to}
-                    className="relative flex flex-col items-center justify-center h-16 text-sm font-medium transition-colors"
-                    style={{ color: isActive ? '#e83a1e' : '#4b5563' }}
-                  >
-                    <span className="relative">
-                      {link.label}
-                      {isActive && (
-                        <span
-                          className="absolute left-0 right-0 rounded-full"
-                          style={{ background: '#e83a1e', height: 2, bottom: -4 }}
-                        />
-                      )}
-                    </span>
-                  </Link>
+                return (
+                  link.isServices ? (
+                    <button
+                      key={link.label}
+                      onClick={handleServicesClick}
+                      className={`nav-link relative flex flex-col items-center justify-center h-16 text-sm font-medium transition-colors${isActive ? ' active' : ''}`}
+                      style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
+                    >
+                      <span className="relative">
+                        {link.label}
+                        <span className="nav-underline" />
+                      </span>
+                    </button>
+                  ) : (
+                    <Link
+                      key={link.to}
+                      to={link.to}
+                      className={`nav-link relative flex flex-col items-center justify-center h-16 text-sm font-medium transition-colors${isActive ? ' active' : ''}`}
+                    >
+                      <span className="relative">
+                        {link.label}
+                        <span className="nav-underline" />
+                      </span>
+                    </Link>
+                  )
                 )
               })}
             </div>
@@ -345,36 +438,18 @@ export default function Navbar() {
                 )}
               </div>
 
-              <Link
-                to="/contacts"
-                className="bg-black text-white rounded-lg border border-black text-sm font-semibold transition-all hover:bg-gray-900 inline-flex items-center justify-center"
-                style={{ height: 44, padding: '0 16px' }}
-              >
+              {/* Кнопка "Начать" — десктоп */}
+              <Link to="/contacts" className="btn-start-desktop">
                 {t('navbar.start')}
               </Link>
             </div>
 
-           
-            <Link
-              to="/contacts"
-              className="navbar-mobile-start"
-              style={{
-                display: 'none',
-                background: '#111',
-                color: '#fff',
-                borderRadius: 12,
-                fontWeight: 700,
-                fontSize: 14,
-                padding: '10px 20px',
-                textDecoration: 'none',
-                alignItems: 'center',
-                whiteSpace: 'nowrap',
-              }}
-            >
+            {/* Кнопка "Начать" — мобильная */}
+            <Link to="/contacts" className="btn-start-mobile">
               {t('navbar.start')}
             </Link>
 
-          
+            {/* Старый бургер (скрыт) */}
             <button
               className="navbar-old-burger md:hidden p-2"
               onClick={() => setMenuOpen(!menuOpen)}
@@ -392,19 +467,15 @@ export default function Navbar() {
         </div>
       </nav>
 
-      
       {menuOpen && (
         <>
-      
           <div
             className="mob-overlay"
             onClick={() => setMenuOpen(false)}
           />
 
-      
           <div className="mob-panel">
 
-          
             <div className="mob-panel-topbar">
               <button
                 className="mob-close-btn"
@@ -454,11 +525,12 @@ export default function Navbar() {
             </div>
 
             <div className="mob-nav-links">
-              {navLinks.map(link =>
-                link.isServices ? (
+              {navLinks.map(link => {
+                const isActive = !link.isServices && location.pathname === link.to
+                return link.isServices ? (
                   <button
                     key={link.label}
-                    className="mob-nav-btn"
+                    className={`mob-nav-btn${isActive ? ' active' : ''}`}
                     onClick={handleServicesClick}
                   >
                     {link.label}
@@ -467,13 +539,13 @@ export default function Navbar() {
                   <Link
                     key={link.to}
                     to={link.to}
-                    className="mob-nav-link"
+                    className={`mob-nav-link${isActive ? ' active' : ''}`}
                     onClick={() => setMenuOpen(false)}
                   >
                     {link.label}
                   </Link>
                 )
-              )}
+              })}
             </div>
 
           </div>

@@ -12,6 +12,16 @@ export default function Footer() {
    <footer style={{ padding: '100px 0 0' }}>
 
       <style>{`
+        .footer-link {
+          color: #4b5563;
+          font-size: 14px;
+          text-decoration: none;
+          transition: color 0.2s;
+        }
+        .footer-link:hover {
+          color: #e8192c;
+        }
+
         @media (max-width: 850px) {
           footer {
             padding: 150px 0 0 !important;
@@ -97,7 +107,7 @@ export default function Footer() {
                     ['/partners', t('footer.link_partners')],
                     ['/about', t('footer.link_why')],
                   ].map(([to, label]) => (
-                    <Link key={label} to={to} style={{ color: '#4b5563', fontSize: 16, textDecoration: 'none' }}>
+                    <Link key={label} to={to} className="footer-link" style={{ fontSize: 16 }}>
                       {label}
                     </Link>
                   ))}
@@ -115,7 +125,7 @@ export default function Footer() {
                     ['/pricing', t('footer.link_pricing')],
                     ['/news', t('footer.link_news')],
                   ].map(([to, label]) => (
-                    <Link key={label} to={to} style={{ color: '#4b5563', fontSize: 14, textDecoration: 'none' }}>
+                    <Link key={label} to={to} className="footer-link">
                       {label}
                     </Link>
                   ))}

@@ -69,6 +69,56 @@ export default function Home() {
 
         html { scroll-behavior: smooth; }
 
+        /* ── Button hover effects ── */
+        .btn-hero-primary {
+          transition: box-shadow 0.2s, filter 0.2s, transform 0.15s !important;
+        }
+        .btn-hero-primary:hover {
+          box-shadow: 0 0 0 4px rgba(232, 25, 44, 0.18), 0 4px 18px rgba(255, 90, 46, 0.35) !important;
+          filter: brightness(1.08) !important;
+          transform: translateY(-1px) !important;
+        }
+        .btn-hero-secondary {
+          transition: border-color 0.2s, color 0.2s, background 0.2s, box-shadow 0.2s, transform 0.15s !important;
+        }
+        .btn-hero-secondary:hover {
+          border-color: transparent !important;
+          color: #fff !important;
+          background: linear-gradient(51.24deg, #D4151C 22.63%, #D35400 82.84%) !important;
+          box-shadow: 0 4px 16px rgba(212, 21, 28, 0.3) !important;
+          transform: translateY(-1px) !important;
+        }
+        .btn-news-more {
+          transition: border-color 0.2s, color 0.2s, background 0.2s, box-shadow 0.2s, transform 0.15s !important;
+        }
+        .btn-news-more:hover {
+          border-color: transparent !important;
+          color: #fff !important;
+          background: linear-gradient(51.24deg, #D4151C 22.63%, #D35400 82.84%) !important;
+          box-shadow: 0 4px 16px rgba(212, 21, 28, 0.3) !important;
+          transform: translateY(-1px) !important;
+        }
+        .btn-cta {
+          transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.15s !important;
+        }
+        .btn-cta:hover {
+          background: linear-gradient(51.24deg, #D4151C 22.63%, #D35400 82.84%) !important;
+          color: #fff !important;
+          box-shadow: 0 0 0 3px rgba(255,255,255,0.35), 0 4px 16px rgba(212, 21, 28, 0.35) !important;
+          transform: translateY(-1px) !important;
+        }
+
+        /* ── Круглые стрелки ── */
+        .arrow-circle {
+          transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+        }
+        .arrow-circle:hover {
+          background: linear-gradient(51.24deg, #D4151C 22.63%, #D35400 82.84%) !important;
+          border-color: transparent !important;
+          color: #fff !important;
+          transform: scale(1.1);
+        }
+
         @media (max-width: 850px) {
 
           .hero-section {
@@ -257,8 +307,6 @@ export default function Home() {
             text-align: left !important;
           }
 
-          
-          /* Биткоин — в самом низу, по центру, обрезан снизу */
           .cta-bitcoin {
             position: relative !important;
             left: auto !important;
@@ -290,10 +338,18 @@ export default function Home() {
               {t('home.heroDesc')}
             </p>
             <div className="hero-buttons" style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-              <Link to="/request" style={{ background: 'linear-gradient(135deg, #e8192c 0%, #ff5a2e 100%)', color: '#fff', fontWeight: 700, padding: '14px 30px', borderRadius: 14, fontSize: 14, textDecoration: 'none', minWidth: 160, textAlign: 'center' }}>
+              <Link
+                to="/request"
+                className="btn-hero-primary"
+                style={{ background: 'linear-gradient(135deg, #e8192c 0%, #ff5a2e 100%)', color: '#fff', fontWeight: 700, padding: '14px 30px', borderRadius: 14, fontSize: 14, textDecoration: 'none', minWidth: 160, textAlign: 'center' }}
+              >
                 {t('home.heroBtn1')}
               </Link>
-              <Link to="/about" style={{ border: '1px solid #d1d5db', color: '#111', fontWeight: 700, padding: '14px 30px', borderRadius: 14, fontSize: 14, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8, background: '#fff', minWidth: 160, justifyContent: 'center' }}>
+              <Link
+                to="/about"
+                className="btn-hero-secondary"
+                style={{ border: '1px solid #d1d5db', color: '#111', fontWeight: 700, padding: '14px 30px', borderRadius: 14, fontSize: 14, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8, background: '#fff', minWidth: 160, justifyContent: 'center' }}
+              >
                 {t('home.heroBtn2')} <span style={{ fontSize: 16 }}>↗</span>
               </Link>
             </div>
@@ -419,7 +475,7 @@ export default function Home() {
                 <h3 style={{ margin: '0 0 12px', fontSize: 20, fontWeight: 800, color: '#111', lineHeight: 1.35 }}>{main.title}</h3>
                 <p style={{ color: '#9ca3af', fontSize: 13, margin: 0 }}>{main.date}</p>
               </div>
-              <div style={{ width: 48, height: 48, borderRadius: 999, border: '1px solid #ffbaac', display: 'grid', placeItems: 'center', color: '#e8192c', fontSize: 20, flexShrink: 0 }}>↗</div>
+              <div className="arrow-circle" style={{ width: 48, height: 48, borderRadius: 999, border: '1px solid #ffbaac', display: 'grid', placeItems: 'center', color: '#e8192c', fontSize: 20, flexShrink: 0 }}>↗</div>
             </div>
           </Link>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -431,14 +487,18 @@ export default function Home() {
                     <h3 className="news-side-title" style={{ margin: '0 0 8px', fontSize: 15, fontWeight: 700, color: '#111', lineHeight: 1.4 }}>{article.title}</h3>
                     <p style={{ color: '#9ca3af', fontSize: 12, margin: 0 }}>{article.date}</p>
                   </div>
-                  <div style={{ width: 42, height: 42, borderRadius: 999, border: '1px solid #ffbaac', display: 'grid', placeItems: 'center', color: '#e8192c', fontSize: 18, flexShrink: 0 }}>↗</div>
+                  <div className="arrow-circle" style={{ width: 42, height: 42, borderRadius: 999, border: '1px solid #ffbaac', display: 'grid', placeItems: 'center', color: '#e8192c', fontSize: 18, flexShrink: 0 }}>↗</div>
                 </div>
               </Link>
             ))}
           </div>
         </div>
         <div style={{ textAlign: 'center', marginTop: 44 }}>
-          <Link to="/news" style={{ width: '166.46px', height: '50px', display: 'inline-flex', alignItems: 'center', gap: 8, border: '1px solid black', color: 'black', fontWeight: 700, padding: '12px 28px', borderRadius: 12, fontSize: 14, textDecoration: 'none', background: '#fff' }}>
+          <Link
+            to="/news"
+            className="btn-news-more"
+            style={{ width: '166.46px', height: '50px', display: 'inline-flex', alignItems: 'center', gap: 8, border: '1px solid black', color: 'black', fontWeight: 700, padding: '12px 28px', borderRadius: 12, fontSize: 14, textDecoration: 'none', background: '#fff' }}
+          >
             {t('home.newsMore')} <span style={{ fontSize: 16 }}>↗</span>
           </Link>
         </div>
@@ -460,7 +520,11 @@ export default function Home() {
             <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: 14, margin: 0, lineHeight: 1.7, textAlign: 'right', whiteSpace: 'pre-line' }}>
               {t('home.ctaDesc')}
             </p>
-            <Link to="/request" style={{ background: '#fff', color: '#e8192c', fontWeight: 700, padding: '14px 32px', borderRadius: 12, fontSize: 14, textDecoration: 'none', whiteSpace: 'nowrap' }}>
+            <Link
+              to="/request"
+              className="btn-cta"
+              style={{ background: '#fff', color: '#e8192c', fontWeight: 700, padding: '14px 32px', borderRadius: 12, fontSize: 14, textDecoration: 'none', whiteSpace: 'nowrap' }}
+            >
               {t('home.ctaBtn')}
             </Link>
           </div>

@@ -8,7 +8,7 @@ export default function Pricing() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
 
-          {/* ── Левый блок — серый ── */}
+        
           <div className="bg-gray-100 flex flex-col" style={{ borderRadius: 30, padding: 30, opacity: 1 }}>
             <h1 className="text-4xl font-black text-gray-900 text-center mb-8">{t('pricing.title')}</h1>
             <p className="text-gray-600 text-sm leading-relaxed mb-4">{t('pricing.desc1')}</p>
@@ -17,7 +17,7 @@ export default function Pricing() {
             <p className="text-gray-600 text-sm leading-relaxed">{t('pricing.desc4')}</p>
           </div>
 
-          {/* ── Правый блок — оранжевый ── */}
+        
           <div
             className="flex flex-col"
             style={{
@@ -52,7 +52,7 @@ export default function Pricing() {
 
             <Link
               to="/contacts"
-              className="mt-8 block bg-white text-gray-900 font-bold text-center py-4 rounded-2xl text-sm hover:bg-gray-100 transition-colors"
+              className="mt-8 block bg-white text-gray-900 font-bold text-center py-4 rounded-2xl text-sm hover:bg-gray-100 transition-colors "
             >
               {t('pricing.planBtn')}
             </Link>

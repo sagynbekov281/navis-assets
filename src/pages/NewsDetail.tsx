@@ -34,21 +34,51 @@ export default function NewsDetail() {
           .news-related-arrow { display: flex !important; }
         }
         .news-related-arrow { display: none; }
+
+        /* ── Кнопка назад ── */
+        .btn-back {
+          width: 42px;
+          height: 42px;
+          border-radius: 999px;
+          background: rgba(245, 247, 250, 1);
+
+          display: grid;
+          place-items: center;
+          color: #111;
+          font-size: 18px;
+          text-decoration: none;
+          transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+          flex-shrink: 0;
+        }
+        .btn-back:hover {
+          background: linear-gradient(51.24deg, #D4151C 22.63%, #D35400 82.84%);
+          border-color: transparent;
+          color: #fff;
+          transform: scale(1.1);
+        }
+
+        /* ── Круглые стрелки в сайдбаре ── */
+        .arrow-circle {
+          transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+        }
+        .arrow-circle:hover {
+          background: linear-gradient(51.24deg, #D4151C 22.63%, #D35400 82.84%) !important;
+          border-color: transparent !important;
+          color: #fff !important;
+          transform: scale(1.1);
+        }
       `}</style>
 
       <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link to="/news" className="text-primary font-medium text-sm hover:underline">{t('news.backToNews')}</Link>
+
+          {/* Кнопка назад — круглая чёрная стрелка */}
+          <Link to="/news" className="btn-back">←</Link>
 
           <div className="news-detail-grid grid grid-cols-1 lg:grid-cols-3 gap-10 mt-8">
 
-            {/* Article */}
+            {/* Основной контент */}
             <div className="lg:col-span-2">
-              <div className="flex gap-2 flex-wrap mb-4">
-                {article.tags.map(tag => (
-                  <span key={tag} className="bg-primary/10 text-primary text-xs px-3 py-1 rounded-full font-medium">{tag}</span>
-                ))}
-              </div>
               <h1 className="text-2xl md:text-3xl font-black text-gray-900 leading-tight mb-4">
                 {article.title}
               </h1>
@@ -75,7 +105,7 @@ export default function NewsDetail() {
                           {rel.title}
                         </h4>
                       </div>
-                      <div className="news-related-arrow" style={{ width: 36, height: 36, borderRadius: 999, border: '1px solid #ffbaac', alignItems: 'center', justifyContent: 'center', color: '#e8192c', fontSize: 15, flexShrink: 0 }}>↗</div>
+                      <div className="news-related-arrow arrow-circle" style={{ width: 36, height: 36, borderRadius: 999, border: '1px solid #ffbaac', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#e8192c', fontSize: 15, flexShrink: 0 }}>↗</div>
                     </div>
                   </Link>
                 ))}
