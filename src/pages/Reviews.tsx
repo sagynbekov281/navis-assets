@@ -18,6 +18,7 @@ export default function Reviews() {
             display: block !important;
           }
         }
+
         .reviews-mobile {
           display: none;
         }
@@ -57,7 +58,7 @@ export default function Reviews() {
       </section>
 
       {/* Desktop */}
-      <section className="pb-16 bg-white">
+      <section className="pb-30 bg-white">
         <div className="max-w-7xl mx-auto" style={{ paddingLeft: 60, paddingRight: 24 }}>
           <div className="reviews-list flex flex-wrap" style={{ gap: 20 }}>
             {reviewsData.slice(0, 8).map(review => (
@@ -89,6 +90,7 @@ export default function Reviews() {
 
       {/* Mobile */}
       <section className="reviews-mobile pb-16 bg-white">
+        
         <div style={{ padding: '0 16px 40px' }}>
           {reviewsData.map(review => (
             <div key={review.id} className="review-card-mobile">

@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { getNewsArticles } from '../data'
+import icon from '../assets/iconАгдд.svg'
 
 export default function NewsDetail() {
   const { id } = useParams()
@@ -41,7 +42,6 @@ export default function NewsDetail() {
           height: 42px;
           border-radius: 999px;
           background: rgba(245, 247, 250, 1);
-
           display: grid;
           place-items: center;
           color: #111;
@@ -57,22 +57,31 @@ export default function NewsDetail() {
           transform: scale(1.1);
         }
 
-        /* ── Круглые стрелки в сайдбаре ── */
+        /* ── Круглые иконки в сайдбаре ── */
         .arrow-circle {
-          transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+          transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.15s;
         }
         .arrow-circle:hover {
           background: linear-gradient(51.24deg, #D4151C 22.63%, #D35400 82.84%) !important;
           border-color: transparent !important;
-          color: #fff !important;
-          transform: scale(1.1);
+          box-shadow: 0 0 12px 3px rgba(232, 25, 44, 0.55), 0 0 24px 6px rgba(255, 90, 46, 0.35) !important;
+          transform: scale(1.15);
+        }
+        .arrow-circle:hover img {
+          filter: brightness(0) invert(1);
+        }
+        .arrow-circle img {
+          transition: filter 0.2s;
+          width: 55%;
+          height: 55%;
+          object-fit: contain;
         }
       `}</style>
 
       <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          {/* Кнопка назад — круглая чёрная стрелка */}
+          {/* Кнопка назад */}
           <Link to="/news" className="btn-back">←</Link>
 
           <div className="news-detail-grid grid grid-cols-1 lg:grid-cols-3 gap-10 mt-8">
@@ -105,7 +114,9 @@ export default function NewsDetail() {
                           {rel.title}
                         </h4>
                       </div>
-                      <div className="news-related-arrow arrow-circle" style={{ width: 36, height: 36, borderRadius: 999, border: '1px solid #ffbaac', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#e8192c', fontSize: 15, flexShrink: 0 }}>↗</div>
+                      <div className="news-related-arrow arrow-circle" style={{ width: 36, height: 36, borderRadius: 999, border: '1px solid #ffbaac', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <img src={icon} alt="arrow" style={{ width: '100%', height: '100%', objectFit: 'contain' }}  />
+                      </div>
                     </div>
                   </Link>
                 ))}

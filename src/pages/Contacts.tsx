@@ -1,14 +1,129 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
+// Типы для CustomSelect и CustomCheckbox
+type SelectOption = { value: string; label: string }
+type CustomSelectProps = {
+  options: SelectOption[];
+  value: string;
+  onChange: (value: string) => void;
+  placeholder: string;
+}
+type CustomCheckboxProps = {
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+}
+type FormState = {
+  firstName: string;
+  lastName: string;
+  country: string;
+  email: string;
+  phone: string;
+  recoveryType: string;
+  walletType: string;
+  walletVolume: string;
+  agree: boolean;
+}
 import { useTranslation } from 'react-i18next'
 import tt from '../assets/tt2.png'
 import tg from '../assets/tg2.png'
 import wats from '../assets/wats2.png'
 import inst from '../assets/inst2.png'
 
+// ── Кастомный Select ──────────────────────────────────────────────
+function CustomSelect({ options, value, onChange, placeholder }: CustomSelectProps) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  const selected = options.find(o => o.value === value)
 
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  return (
+    <div ref={ref} style={{ position: 'relative', userSelect: 'none' }}>
+      <div
+        onClick={() => setOpen(o => !o)}
+        style={{
+          width: '100%', padding: '12px 16px', borderRadius: 12,
+          border: `1px solid ${open ? '#e8192c' : '#e5e7eb'}`,
+          boxShadow: open ? '0 0 0 3px rgba(232,25,44,0.1)' : 'none',
+          fontSize: 13, color: selected ? '#111' : '#9ca3af',
+          background: '#fff', cursor: 'pointer',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          transition: 'border-color 0.18s, box-shadow 0.18s',
+          boxSizing: 'border-box',
+        }}
+      >
+        <span>{selected ? selected.label : placeholder}</span>
+        <svg
+          width="14" height="14" viewBox="0 0 24 24" fill="none"
+          stroke="#9ca3af" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+          style={{ transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }}
+        >
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </div>
+
+      {open && (
+        <div style={{
+          position: 'absolute', top: 'calc(100% + 6px)', left: 0, right: 0,
+          background: '#fff', borderRadius: 12, border: '1px solid #f0f0f0',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.10)', zIndex: 100,
+          overflow: 'hidden',
+        }}>
+          {options.map(opt => (
+            <div
+              key={opt.value}
+              onClick={() => { onChange(opt.value); setOpen(false) }}
+              style={{
+                padding: '11px 16px', fontSize: 13, cursor: 'pointer',
+                color: opt.value === value ? '#e8192c' : '#111',
+                background: opt.value === value ? 'rgba(232,25,44,0.06)' : '#fff',
+                fontWeight: opt.value === value ? 600 : 400,
+                transition: 'background 0.12s',
+              }}
+              onMouseEnter={e => { if (opt.value !== value) e.currentTarget.style.background = '#f9fafb' }}
+              onMouseLeave={e => { e.currentTarget.style.background = opt.value === value ? 'rgba(232,25,44,0.06)' : '#fff' }}
+            >
+              {opt.label}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ── Кастомный Checkbox ────────────────────────────────────────────
+function CustomCheckbox({ checked, onChange }: CustomCheckboxProps) {
+  return (
+    <div
+      onClick={() => onChange(!checked)}
+      style={{
+        width: 18, height: 18, borderRadius: 5, flexShrink: 0, cursor: 'pointer',
+        border: `2px solid ${checked ? '#e8192c' : '#d1d5db'}`,
+        background: checked ? '#e8192c' : '#fff',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        transition: 'border-color 0.18s, background 0.18s',
+        marginTop: 2,
+      }}
+    >
+      {checked && (
+        <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+          <polyline points="2 6 5 9 10 3" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      )}
+    </div>
+  )
+}
+
+// ── Главный компонент ─────────────────────────────────────────────
 export default function Contacts() {
   const { t } = useTranslation()
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<FormState>({
     firstName: '', lastName: '', country: '', email: '', phone: '',
     recoveryType: '', walletType: '', walletVolume: '', agree: false
   })
@@ -18,38 +133,39 @@ export default function Contacts() {
     if (form.agree) setSent(true)
   }
 
+  const inputCls = "form-input w-full px-4 py-3 rounded-xl border border-gray-200 text-sm"
+
   return (
-    <div className="bg-white min-h-screen ">
+    <div className="bg-white min-h-screen">
 
       <style>{`
-        @media (max-width: 850px) { 
-          .contacts-grid {
-            grid-template-columns: 1fr !important;
-          }
-          .form-row-2 {
-            grid-template-columns: 1fr !important;
-          }
+        @media (max-width: 850px) {
+          .contacts-grid { grid-template-columns: 1fr !important; }
+          .form-row-2 { grid-template-columns: 1fr !important; }
+        }
+        .form-input {
+          outline: none;
+          transition: border-color 0.18s, box-shadow 0.18s;
+        }
+        .form-input:focus {
+          border-color: #e8192c !important;
+          box-shadow: 0 0 0 3px rgba(232,25,44,0.1) !important;
         }
       `}</style>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 ">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="contacts-grid grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
 
-        
+          {/* Левая — контактная инфо */}
           <div
             className="rounded-3xl p-8 flex flex-col justify-between"
-            style={{
-              background: 'linear-gradient(135deg, #e83a1e 0%, #c0392b 50%, #a93226 100%)',
-              minHeight: 580,
-            }}
+            style={{ background: 'linear-gradient(135deg, #e83a1e 0%, #c0392b 50%, #a93226 100%)', minHeight: 580 }}
           >
             <h2 className="text-white font-black text-2xl md:text-3xl leading-snug">
               {t('contacts.title')}
             </h2>
-
             <div>
               <div className="mb-8" />
-
               <div className="space-y-5">
                 <div className="flex items-start gap-3">
                   <div className="mt-0.5 flex-shrink-0">
@@ -57,11 +173,8 @@ export default function Contacts() {
                       <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z" fill="white" fillOpacity="0.85"/>
                     </svg>
                   </div>
-                  <p className="text-white/85 text-sm leading-snug">
-                    {t('contacts.address2')}
-                  </p>
+                  <p className="text-white/85 text-sm leading-snug">{t('contacts.address2')}</p>
                 </div>
-
                 <div className="flex items-start gap-3">
                   <div className="mt-0.5 flex-shrink-0">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -73,7 +186,6 @@ export default function Contacts() {
                     <p className="text-white/85 text-sm">+996 (502)-800-202</p>
                   </div>
                 </div>
-
                 <div className="flex items-center gap-3">
                   <div className="flex-shrink-0">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -83,7 +195,6 @@ export default function Contacts() {
                   <p className="text-white/85 text-sm">navisasset@mail.com</p>
                 </div>
               </div>
-
               <div className="mt-8">
                 <p className="text-white font-bold text-sm mb-3">{t('contacts.socialTitle')}</p>
                 <div className="flex gap-3">
@@ -102,15 +213,11 @@ export default function Contacts() {
                 </div>
               </div>
             </div>
-
-            <p className="text-white/60 text-xs leading-relaxed mt-8">
-              {t('contacts.infoText')}
-            </p>
+            <p className="text-white/60 text-xs leading-relaxed mt-8">{t('contacts.infoText')}</p>
           </div>
 
-       
-          <div className="rounded-3xl border border-gray-200 p-8 " style={{ minHeight: 580, backgroundColor: 'rgba(245, 247, 250, 1)' }}>
-
+          {/* Правая — форма */}
+          <div className="rounded-3xl border border-gray-200 p-8" style={{ minHeight: 580, backgroundColor: 'rgba(245, 247, 250, 1)' }}>
             {sent ? (
               <div className="flex flex-col items-center justify-center h-full py-20 text-center">
                 <div className="text-5xl mb-4">✅</div>
@@ -127,140 +234,89 @@ export default function Contacts() {
             ) : (
               <div className="space-y-5">
 
-            
                 <div className="form-row-2 grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs text-gray-500 mb-1.5">{t('contacts.firstName')}</label>
-                    <input
-                      type="text"
-                      placeholder={t('contacts.firstName')}
-                      value={form.firstName}
-                      onChange={e => setForm({ ...form, firstName: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-red-400"
-                    />
+                    <input type="text" placeholder={t('contacts.firstName')} value={form.firstName} onChange={e => setForm({ ...form, firstName: e.target.value })} className={inputCls} />
                   </div>
                   <div>
                     <label className="block text-xs text-gray-500 mb-1.5">{t('contacts.lastName')}</label>
-                    <input
-                      type="text"
-                      placeholder={t('contacts.lastName')}
-                      value={form.lastName}
-                      onChange={e => setForm({ ...form, lastName: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-red-400"
-                    />
+                    <input type="text" placeholder={t('contacts.lastName')} value={form.lastName} onChange={e => setForm({ ...form, lastName: e.target.value })} className={inputCls} />
                   </div>
                 </div>
 
-             
                 <div>
                   <label className="block text-xs text-gray-500 mb-1.5">{t('contacts.country')}</label>
-                  <div className="relative">
-                    <select
-                      value={form.country}
-                      onChange={e => setForm({ ...form, country: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-400 appearance-none focus:outline-none focus:border-red-400 bg-white"
-                    >
-                      <option value="">{t('contacts.countryPlaceholder')}</option>
-                      <option>{t('contacts.countryKg')}</option>
-                      <option>{t('contacts.countryRu')}</option>
-                      <option>{t('contacts.countryKz')}</option>
-                      <option>{t('contacts.countryUz')}</option>
-                      <option>{t('contacts.countryOther')}</option>
-                    </select>
-                    <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">▾</div>
-                  </div>
+                  <CustomSelect
+                    value={form.country}
+                    onChange={val => setForm(p => ({ ...p, country: val }))}
+                    placeholder={t('contacts.countryPlaceholder')}
+                    options={[
+                      { value: 'kg', label: t('contacts.countryKg') },
+                      { value: 'ru', label: t('contacts.countryRu') },
+                      { value: 'kz', label: t('contacts.countryKz') },
+                      { value: 'uz', label: t('contacts.countryUz') },
+                      { value: 'other', label: t('contacts.countryOther') },
+                    ]}
+                  />
                 </div>
 
-             
                 <div className="form-row-2 grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs text-gray-500 mb-1.5">{t('contacts.email')}</label>
-                    <input
-                      type="email"
-                      placeholder={t('contacts.emailPlaceholder')}
-                      value={form.email}
-                      onChange={e => setForm({ ...form, email: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-red-400"
-                    />
+                    <input type="email" placeholder={t('contacts.emailPlaceholder')} value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} className={inputCls} />
                   </div>
                   <div>
                     <label className="block text-xs text-gray-500 mb-1.5">{t('contacts.phone')}</label>
-                    <input
-                      type="tel"
-                      placeholder="+996 502 800 202"
-                      value={form.phone}
-                      onChange={e => setForm({ ...form, phone: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-red-400"
-                    />
+                    <input type="tel" placeholder="+996 502 800 202" value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} className={inputCls} />
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-xs text-gray-500 mb-1.5">{t('contacts.recoveryType')}</label>
-                  <div className="relative">
-                    <select
-                      value={form.recoveryType}
-                      onChange={e => setForm({ ...form, recoveryType: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-400 appearance-none focus:outline-none focus:border-red-400 bg-white"
-                    >
-                      <option value="">{t('contacts.recoveryPlaceholder')}</option>
-                      <option>{t('contacts.recoveryPassword')}</option>
-                      <option>{t('contacts.recoverySeed')}</option>
-                      <option>{t('contacts.recoveryKey')}</option>
-                      <option>{t('contacts.recoveryOther')}</option>
-                    </select>
-                    <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">▾</div>
-                  </div>
+                  <CustomSelect
+                    value={form.recoveryType}
+                    onChange={val => setForm(p => ({ ...p, recoveryType: val }))}
+                    placeholder={t('contacts.recoveryPlaceholder')}
+                    options={[
+                      { value: 'password', label: t('contacts.recoveryPassword') },
+                      { value: 'seed', label: t('contacts.recoverySeed') },
+                      { value: 'key', label: t('contacts.recoveryKey') },
+                      { value: 'other', label: t('contacts.recoveryOther') },
+                    ]}
+                  />
                 </div>
 
-        
                 <div className="form-row-2 grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs text-gray-500 mb-1.5">{t('contacts.walletType')}</label>
-                    <div className="relative">
-                      <select
-                        value={form.walletType}
-                        onChange={e => setForm({ ...form, walletType: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-400 appearance-none focus:outline-none focus:border-red-400 bg-white"
-                      >
-                        <option value="">{t('contacts.walletTypePlaceholder')}</option>
-                        <option>Bitcoin</option>
-                        <option>Ethereum</option>
-                        <option>Solana</option>
-                        <option>Litecoin</option>
-                        <option>{t('contacts.countryOther')}</option>
-                      </select>
-                      <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">▾</div>
-                    </div>
+                    <CustomSelect
+                      value={form.walletType}
+                      onChange={val => setForm(p => ({ ...p, walletType: val }))}
+                      placeholder={t('contacts.walletTypePlaceholder')}
+                      options={[
+                        { value: 'bitcoin', label: 'Bitcoin' },
+                        { value: 'ethereum', label: 'Ethereum' },
+                        { value: 'solana', label: 'Solana' },
+                        { value: 'litecoin', label: 'Litecoin' },
+                        { value: 'other', label: t('contacts.countryOther') },
+                      ]}
+                    />
                   </div>
                   <div>
                     <label className="block text-xs text-gray-500 mb-1.5">{t('contacts.walletVolume')}</label>
-                    <input
-                      type="text"
-                      placeholder={t('contacts.walletVolumePlaceholder')}
-                      value={form.walletVolume}
-                      onChange={e => setForm({ ...form, walletVolume: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-red-400"
-                    />
+                    <input type="text" placeholder={t('contacts.walletVolumePlaceholder')} value={form.walletVolume} onChange={e => setForm({ ...form, walletVolume: e.target.value })} className={inputCls} />
                   </div>
                 </div>
 
-             
                 <div className="flex items-start gap-2.5 pt-1">
-                  <input
-                    type="checkbox"
-                    id="agree"
-                    checked={form.agree}
-                    onChange={e => setForm({ ...form, agree: e.target.checked })}
-                    className="mt-0.5 w-4 h-4 accent-red-500 flex-shrink-0 cursor-pointer"
-                  />
-                  <label htmlFor="agree" className="text-xs text-gray-400 leading-snug cursor-pointer">
+                  <CustomCheckbox checked={form.agree} onChange={v => setForm(p => ({ ...p, agree: v }))} />
+                  <label className="text-xs text-gray-400 leading-snug cursor-pointer" onClick={() => setForm(p => ({ ...p, agree: !p.agree }))}>
                     {t('contacts.agree')}{' '}
                     <span className="text-red-500 underline cursor-pointer">{t('contacts.agreeLink')}</span>
                   </label>
                 </div>
 
-           
                 <button
                   onClick={handleSubmit}
                   className="w-full text-white font-bold py-4 rounded-xl text-sm transition-opacity hover:opacity-90"

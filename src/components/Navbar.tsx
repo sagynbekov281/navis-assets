@@ -25,6 +25,13 @@ export default function Navbar() {
     i18n.changeLanguage(code === 'RU' ? 'ru' : 'en')
   }
 
+  // Закрывать дропдаун при клике в любом месте страницы
+  useEffect(() => {
+    if (!languageOpen) return
+    const handleClickOutside = () => setLanguageOpen(false)
+    document.addEventListener('click', handleClickOutside)
+    return () => document.removeEventListener('click', handleClickOutside)
+  }, [languageOpen])
 
   useEffect(() => {
     if (menuOpen) {
@@ -350,7 +357,6 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* ── Desktop logo ── */}
             <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center gap-3 cursor-pointer navbar-desktop-links" style={{ textDecoration: 'none' }}>
               <div className="w-15 h-10">
                 <img src={UnionIcon} alt="Union logo" className="w-full h-full object-cover" />
@@ -361,7 +367,6 @@ export default function Navbar() {
               </div>
             </Link>
 
-            {/* ── Desktop nav links ── */}
             <div className="navbar-desktop-links hidden md:flex items-center gap-6 h-full">
               {navLinks.map(link => {
                 const isActive = !link.isServices && location.pathname === link.to
@@ -399,7 +404,7 @@ export default function Navbar() {
               <div className="relative">
                 <button
                   type="button"
-                  onClick={() => setLanguageOpen(!languageOpen)}
+                  onClick={(e) => { e.stopPropagation(); setLanguageOpen(!languageOpen) }}
                   className="inline-flex items-center gap-3 rounded-lg border border-gray-200 bg-white px-3.5 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-50 transition"
                   style={{ height: 44 }}
                   aria-label="Выбрать язык"
@@ -438,18 +443,15 @@ export default function Navbar() {
                 )}
               </div>
 
-              {/* Кнопка "Начать" — десктоп */}
               <Link to="/contacts" className="btn-start-desktop">
                 {t('navbar.start')}
               </Link>
             </div>
 
-            {/* Кнопка "Начать" — мобильная */}
             <Link to="/contacts" className="btn-start-mobile">
               {t('navbar.start')}
             </Link>
 
-            {/* Старый бургер (скрыт) */}
             <button
               className="navbar-old-burger md:hidden p-2"
               onClick={() => setMenuOpen(!menuOpen)}
@@ -488,7 +490,7 @@ export default function Navbar() {
               <div style={{ position: 'relative' }}>
                 <button
                   className="mob-lang-btn"
-                  onClick={() => setLanguageOpen(!languageOpen)}
+                  onClick={(e) => { e.stopPropagation(); setLanguageOpen(!languageOpen) }}
                   type="button"
                 >
                   <span style={{ width: 24, height: 18, borderRadius: 3, overflow: 'hidden', display: 'inline-flex', flexShrink: 0 }}>

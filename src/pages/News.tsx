@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom'
 import { getNewsArticles } from '../data'
 import BigBit from '../assets/bigBit.png'
 import { useTranslation } from 'react-i18next'
+import icon from '../assets/iconАгдд.svg'
+import { HiArrowUpRight } from 'react-icons/hi2'
 
 export default function News() {
   const { t } = useTranslation()
@@ -46,15 +48,24 @@ export default function News() {
           display: none;
         }
 
-        /* Круглые стрелки */
+        /* Круглые иконки */
         .arrow-circle {
-          transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+          transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.15s;
         }
         .arrow-circle:hover {
           background: linear-gradient(51.24deg, #D4151C 22.63%, #D35400 82.84%) !important;
           border-color: transparent !important;
-          color: #fff !important;
-          transform: scale(1.1);
+          box-shadow: 0 0 12px 3px rgba(232, 25, 44, 0.55), 0 0 24px 6px rgba(255, 90, 46, 0.35) !important;
+          transform: scale(1.15);
+        }
+        .arrow-circle:hover img {
+          filter: brightness(0) invert(1);
+        }
+        .arrow-circle img {
+          transition: filter 0.2s;
+          width: 55%;
+          height: 55%;
+          object-fit: contain;
         }
 
         /* Кнопка "Подробнее" */
@@ -93,7 +104,9 @@ export default function News() {
                       <h3 style={{ margin: '0 0 8px', fontSize: 16, fontWeight: 800, color: '#111', lineHeight: 1.35 }}>{first.title}</h3>
                       <p style={{ color: '#9ca3af', fontSize: 12, margin: 0 }}>{first.date}</p>
                     </div>
-                    <div className="arrow-circle" style={{ width: 42, height: 42, borderRadius: 999, border: '1px solid #ffbaac', display: 'grid', placeItems: 'center', color: '#e8192c', fontSize: 18, flexShrink: 0 }}>↗</div>
+                    <div className="arrow-circle" style={{ width: 42, height: 42, borderRadius: 999, border: '1px solid #ffbaac', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
+                      <img src={icon} alt="arrow" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                    </div>
                   </div>
                 </div>
               </Link>
@@ -106,7 +119,9 @@ export default function News() {
                       <h3 style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 700, color: '#111', lineHeight: 1.4 }}>{article.title}</h3>
                       <p style={{ color: '#9ca3af', fontSize: 11, margin: 0 }}>{article.date}</p>
                     </div>
-                    <div className="arrow-circle" style={{ width: 36, height: 36, borderRadius: 999, border: '1px solid #ffbaac', display: 'grid', placeItems: 'center', color: '#e8192c', fontSize: 15, flexShrink: 0, marginLeft: 8 }}>↗</div>
+                    <div className="arrow-circle" style={{ width: 36, height: 36, borderRadius: 999, border: '1px solid #ffbaac', display: 'grid', placeItems: 'center', flexShrink: 0, marginLeft: 8 }}>
+                      <img src={icon} alt="arrow" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                    </div>
                   </div>
                 </Link>
               ))}
@@ -122,7 +137,9 @@ export default function News() {
                       <h3 style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 700, color: '#111', lineHeight: 1.4 }}>{article.title}</h3>
                       <p style={{ color: '#9ca3af', fontSize: 11, margin: 0 }}>{article.date}</p>
                     </div>
-                    <div className="arrow-circle" style={{ width: 36, height: 36, borderRadius: 999, border: '1px solid #ffbaac', display: 'grid', placeItems: 'center', color: '#e8192c', fontSize: 15, flexShrink: 0 }}>↗</div>
+                    <div className="arrow-circle" style={{ width: 36, height: 36, borderRadius: 999, border: '1px solid #ffbaac', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
+                      <img src={icon} alt="arrow" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                    </div>
                   </div>
                 </Link>
               ))}
@@ -137,7 +154,7 @@ export default function News() {
               padding: '12px 28px', borderRadius: 12, fontSize: 14,
               textDecoration: 'none', background: '#fff'
             }}>
-              {t('news.more')} <span style={{ fontSize: 16 }}>↗</span>
+              {t('news.more')} <HiArrowUpRight size={16} />
             </Link>
           </div>
 

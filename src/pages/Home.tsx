@@ -14,6 +14,9 @@ import Error from '../assets/error.jpg'
 import Smm from '../assets/smm.jpg'
 import BitcoinIcon from '../assets/bitcoin.png'
 import Footer from '../components/Footer'
+import icon from '../assets/iconАгдд.svg'
+import { HiArrowUpRight } from 'react-icons/hi2'
+
 
 const logoItems = [
   <img src={ManasLogo} alt="Manas" style={{ height: 76, objectFit: 'contain', display: 'block' }} />,
@@ -108,15 +111,24 @@ export default function Home() {
           transform: translateY(-1px) !important;
         }
 
-        /* ── Круглые стрелки ── */
+        /* ── Круглые иконки ── */
         .arrow-circle {
-          transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+          transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.15s;
         }
         .arrow-circle:hover {
           background: linear-gradient(51.24deg, #D4151C 22.63%, #D35400 82.84%) !important;
           border-color: transparent !important;
-          color: #fff !important;
-          transform: scale(1.1);
+          box-shadow: 0 0 12px 3px rgba(232, 25, 44, 0.55), 0 0 24px 6px rgba(255, 90, 46, 0.35) !important;
+          transform: scale(1.15);
+        }
+        .arrow-circle:hover img {
+          filter: brightness(0) invert(1);
+        }
+        .arrow-circle img {
+          transition: filter 0.2s;
+          width: 55%;
+          height: 55%;
+          object-fit: contain;
         }
 
         @media (max-width: 850px) {
@@ -183,7 +195,7 @@ export default function Home() {
           }
           .why-card-num {
             font-size: 200px !important;
-            margin-bottom: -40px !important;
+            margin-bottom: -50px !important;
           }
           .why-card-title {
             font-size: 23px !important;
@@ -350,7 +362,7 @@ export default function Home() {
                 className="btn-hero-secondary"
                 style={{ border: '1px solid #d1d5db', color: '#111', fontWeight: 700, padding: '14px 30px', borderRadius: 14, fontSize: 14, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8, background: '#fff', minWidth: 160, justifyContent: 'center' }}
               >
-                {t('home.heroBtn2')} <span style={{ fontSize: 16 }}>↗</span>
+                {t('home.heroBtn2')} <HiArrowUpRight size={16} />
               </Link>
             </div>
           </div>
@@ -440,7 +452,7 @@ export default function Home() {
                     style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 22px', background: 'transparent', border: 'none', cursor: 'pointer', fontWeight: 700, color: '#111', fontSize: 15, textAlign: 'left' }}
                   >
                     <span style={{ flex: 1, paddingRight: 12 }}>{faq.q}</span>
-                    <span style={{ width: 34, height: 34, borderRadius: 999, background: isOpen ? '#ffe3d7' : '#f3f4f6', color: '#e8192c', display: 'grid', placeItems: 'center', fontSize: 18, flexShrink: 0 }}>
+                    <span style={{ width: 50, height: 50, borderRadius: 999, background: isOpen ? '#ffe3d7' : '#f3f4f6', color: '#e8192c', display: 'grid', placeItems: 'center', fontSize: 18, flexShrink: 0 }}>
                       {isOpen ? '−' : '+'}
                     </span>
                   </button>
@@ -475,7 +487,9 @@ export default function Home() {
                 <h3 style={{ margin: '0 0 12px', fontSize: 20, fontWeight: 800, color: '#111', lineHeight: 1.35 }}>{main.title}</h3>
                 <p style={{ color: '#9ca3af', fontSize: 13, margin: 0 }}>{main.date}</p>
               </div>
-              <div className="arrow-circle" style={{ width: 48, height: 48, borderRadius: 999, border: '1px solid #ffbaac', display: 'grid', placeItems: 'center', color: '#e8192c', fontSize: 20, flexShrink: 0 }}>↗</div>
+              <div className="arrow-circle" style={{ width: 45, height: 45, borderRadius: 999, border: '1px solid #ffbaac', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
+                <img src={icon} alt="arrow" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+              </div>
             </div>
           </Link>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -487,7 +501,9 @@ export default function Home() {
                     <h3 className="news-side-title" style={{ margin: '0 0 8px', fontSize: 15, fontWeight: 700, color: '#111', lineHeight: 1.4 }}>{article.title}</h3>
                     <p style={{ color: '#9ca3af', fontSize: 12, margin: 0 }}>{article.date}</p>
                   </div>
-                  <div className="arrow-circle" style={{ width: 42, height: 42, borderRadius: 999, border: '1px solid #ffbaac', display: 'grid', placeItems: 'center', color: '#e8192c', fontSize: 18, flexShrink: 0 }}>↗</div>
+                  <div className="arrow-circle" style={{ width: 36, height: 36, borderRadius: 999, border: '1px solid #ffbaac', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
+                    <img src={icon} alt="arrow" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                  </div>
                 </div>
               </Link>
             ))}
@@ -499,7 +515,7 @@ export default function Home() {
             className="btn-news-more"
             style={{ width: '166.46px', height: '50px', display: 'inline-flex', alignItems: 'center', gap: 8, border: '1px solid black', color: 'black', fontWeight: 700, padding: '12px 28px', borderRadius: 12, fontSize: 14, textDecoration: 'none', background: '#fff' }}
           >
-            {t('home.newsMore')} <span style={{ fontSize: 16 }}>↗</span>
+            {t('home.newsMore')} <HiArrowUpRight size={16} />
           </Link>
         </div>
       </section>
